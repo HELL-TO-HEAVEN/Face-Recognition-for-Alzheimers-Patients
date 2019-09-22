@@ -1,10 +1,13 @@
-from easyfacenet.simple import facenet
+import face_recognition
 
-images = ['IMG_7268.JPG', "IMG_7269.JPG", "IMG_7270.JPG"]
+knownImage = face_recognition.load_image_file("./images/3.jpg")
+knownImage1 = face_recognition.load_image_file("./images/2.jpg")
+unknownImage = face_recognition.load_image_file("./HOWARD.jpg")
 
-aligned = facenet.align_face(images)
-embeddings = facenet.embedding(aligned)
-comparisons = facenet.compare(aligned)
+known_encoding = face_recognition.face_encodings(knownImage)[0]
+known1_encoding = face_recognition.face_encodings(knownImage1)[0]
+unknown_encoding = face_recognition.face_encodings(unknownImage)[0]
 
-print("Is image 1 and 2 similar? ", bool(comparisons[0][1]))
-print("Is image 1 and 3 similar? ", bool(comparisons[0][2]))
+results = face_recognition.compare_faces([known_encoding, known1_encoding], unknown_encoding)
+
+print(results)
